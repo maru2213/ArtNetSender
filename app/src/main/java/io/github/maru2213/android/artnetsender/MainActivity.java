@@ -609,8 +609,38 @@ public class MainActivity extends AppCompatActivity {
                             value = (byte) intValue;
                     }
                     break;
+                case PLUS:
+                    int ratio_p;
+                    try {
+                        ratio_p = Integer.parseInt(commandArray[2]);
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                        throw new IllegalStateException("There should be a number after PLUS");
+                    }
+                    int currentValue_p = data[startChannel - 1] & 0xFF;
+                    int intValue_p = Math.round(currentValue_p + ((float) currentValue_p * ratio_p / 100));
+                    if (intValue_p > 255) {
+                        intValue_p = 255;
+                    }
+                    value = (byte) intValue_p;
+                    break;
+                case MINUS:
+                    int ratio_m;
+                    try {
+                        ratio_m = Integer.parseInt(commandArray[2]);
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                        throw new IllegalStateException("There should be a number after MINUS");
+                    }
+                    int currentValue_m = data[startChannel - 1] & 0xFF;
+                    int intValue_m = Math.round(currentValue_m - ((float) currentValue_m * ratio_m / 100));
+                    if (intValue_m < 0) {
+                        intValue_m = 0;
+                    }
+                    value = (byte) intValue_m;
+                    break;
                 default:
-                    throw new IllegalStateException("The second element must be FULL, ZERO, or AT");
+                    throw new IllegalStateException("The second element must be FULL, ZERO, AT, PLUS, or MINUS");
             }
 
             data[startChannel - 1] = value;
@@ -643,8 +673,10 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
-            int startValue;
+            int startValue = 0;
             int endValue = -1;
+            int ratio = 0;
+            int isPlusOrMinus = 0;
             int i = isByUsed ? 5 : 3;
             switch (commandArray[i]) {
                 case FULL:
@@ -677,6 +709,9 @@ public class MainActivity extends AppCompatActivity {
                                     throw new IllegalStateException("There must be THRU after AT <value>");
                                 }
 
+                                if (!Pattern.compile(VALUE_REGEX).matcher(commandArray[i + 3]).matches()) {
+                                    throw new IllegalStateException("Invalid value");
+                                }
                                 try {
                                     endValue = Integer.parseInt(commandArray[i + 3]);
                                 } catch (NumberFormatException e) {
@@ -686,8 +721,26 @@ public class MainActivity extends AppCompatActivity {
                             }
                     }
                     break;
+                case PLUS:
+                    isPlusOrMinus = 1;
+                    try {
+                        ratio = Integer.parseInt(commandArray[i + 1]);
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                        throw new IllegalStateException("There should be a number after PLUS");
+                    }
+                    break;
+                case MINUS:
+                    isPlusOrMinus = -1;
+                    try {
+                        ratio = Integer.parseInt(commandArray[i + 1]);
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                        throw new IllegalStateException("There should be a number after MINUS");
+                    }
+                    break;
                 default:
-                    throw new IllegalStateException("There is no FULL, ZERO, or AT");
+                    throw new IllegalStateException("There is no FULL, ZERO, AT, PLUS, or MINUS");
             }
 
             if (endValue < 0) {
@@ -697,10 +750,31 @@ public class MainActivity extends AppCompatActivity {
             int channelRange = endChannel - startChannel + 1;
             int channelCount = (int) Math.ceil((double) channelRange / by);
             int dataRange = endValue - startValue;
+            int value;
             for (int j = 0; j < channelCount; j++) {
-                int value = startValue + (int) Math.round((double) dataRange * j / (channelCount - 1));
-                if (j == channelCount - 1) {
-                    value = endValue;
+                switch (isPlusOrMinus) {
+                    case 0:
+                        value = startValue + (int) Math.round((double) dataRange * j / (channelCount - 1));
+                        if (j == channelCount - 1) {
+                            value = endValue;
+                        }
+                        break;
+                    case 1:
+                        int currentValue_p = data[startChannel + (by * j) - 1] & 0xFF;
+                        value = Math.round(currentValue_p + ((float) currentValue_p * ratio / 100));
+                        if (value > 255) {
+                            value = 255;
+                        }
+                        break;
+                    case -1:
+                        int currentValue_m = data[startChannel + (by * j) - 1] & 0xFF;
+                        value = Math.round(currentValue_m - ((float) currentValue_m * ratio / 100));
+                        if (value < 0) {
+                            value = 0;
+                        }
+                        break;
+                    default:
+                        throw new IllegalStateException("error!");
                 }
                 data[startChannel + (by * j) - 1] = (byte) value;
             }
