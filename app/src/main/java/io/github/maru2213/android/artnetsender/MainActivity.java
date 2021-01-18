@@ -190,13 +190,11 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case R.id.button_please:
                     please();
-                    commandList.clear();
                     break;
                 case R.id.button_esc:
                     commandList.clear();
                     break;
                 case R.id.button_reset:
-                    commandList.clear();
                     reset();
                     break;
                 case R.id.button_setting:
@@ -519,9 +517,11 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
             Toast.makeText(this, "Invalid command", Toast.LENGTH_SHORT).show();
         }
+        commandList.clear();
     }
 
     private void reset() {
+        commandList.clear();
         commandList.add("1");
         commandList.add(THRU);
         commandList.add("5");
