@@ -54,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
     private int ipIndex = 0;
     private StringBuilder addingIP = new StringBuilder();
 
+    private ArtNetSenderThread senderThread;
+
     private final String PLUS = "PLUS";
     private final String MINUS = "MINUS";
     private final String AT = "AT";
@@ -65,6 +67,14 @@ public class MainActivity extends AppCompatActivity {
     private final String CHANNEL_REGEX = "(([1-9])|([1-9][0-9])|([1-4][0-9]{2})|(50[0-9])|(51[0-2]))";
     private final String VALUE_REGEX = "(([0-9])|([1-9][0-9])|(1[0-9]{2})|(2[0-4][0-9])|(25[0-5]))";
     private final String IP_REGEX = "^(([1-9]?[0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([1-9]?[0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$";
+
+    public byte[] getData() {
+        return data;
+    }
+
+    public List<String> getIPList() {
+        return IPList;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,7 +119,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        senderThread = new ArtNetSenderThread(this);
+        senderThread.start();
         updateTextView();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        senderThread.stopThread();
     }
 
     public void onClick(View view) {
@@ -358,7 +376,7 @@ public class MainActivity extends AppCompatActivity {
                             IPList.add(addingIP.toString());
                             addingIP = new StringBuilder();
                             switchAddingMode();
-                        }else{
+                        } else {
                             Toast.makeText(this, "Invalid IP address", Toast.LENGTH_SHORT).show();
                         }
                         break;
@@ -497,7 +515,6 @@ public class MainActivity extends AppCompatActivity {
         try {
             interpretCommand();
             System.out.println(Arrays.toString(data));
-            //TODO dataの送信
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(this, "Invalid command", Toast.LENGTH_SHORT).show();
