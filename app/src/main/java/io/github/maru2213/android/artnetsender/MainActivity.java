@@ -178,7 +178,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void reset() {
-        //TODO
+        commandList.clear();
+        commandList.add("1");
+        commandList.add(THRU);
+        commandList.add("5");
+        commandList.add("1");
+        commandList.add("2");
+        commandList.add(ZERO);
+        please();
     }
 
     private boolean isSign(String s) {
