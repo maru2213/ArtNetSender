@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private Button button_7;
     private Button button_8;
     private Button button_9;
+    private Button button_period;
     private Button button_plus;
     private Button button_minus;
     private Button button_at;
@@ -41,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
     private Button button_del;
     private Button button_back;
     private Button button_next;
-    private Button button_period;
 
     private byte[] data = new byte[512];
 
@@ -74,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
         button_7 = findViewById(R.id.button_7);
         button_8 = findViewById(R.id.button_8);
         button_9 = findViewById(R.id.button_9);
+        button_period = findViewById(R.id.button_period);
         button_plus = findViewById(R.id.button_plus);
         button_minus = findViewById(R.id.button_minus);
         button_at = findViewById(R.id.button_at);
@@ -89,7 +90,6 @@ public class MainActivity extends AppCompatActivity {
         button_del = findViewById(R.id.button_del);
         button_back = findViewById(R.id.button_back);
         button_next = findViewById(R.id.button_next);
-        button_period = findViewById(R.id.button_period);
     }
 
     @Override
