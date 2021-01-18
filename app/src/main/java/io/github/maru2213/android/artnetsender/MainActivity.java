@@ -47,6 +47,13 @@ public class MainActivity extends AppCompatActivity {
 
     private List<String> commandList = new ArrayList<>();
 
+    private List<String> IPList = new ArrayList<>();
+
+    private boolean isSettingMode = false;
+    private boolean isAddingMode = false;
+    private int ipIndex = 0;
+    private StringBuilder addingIP = new StringBuilder();
+
     private final String PLUS = "PLUS";
     private final String MINUS = "MINUS";
     private final String AT = "AT";
@@ -57,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
 
     private final String CHANNEL_REGEX = "(([1-9])|([1-9][0-9])|([1-4][0-9]{2})|(50[0-9])|(51[0-2]))";
     private final String VALUE_REGEX = "(([0-9])|([1-9][0-9])|(1[0-9]{2})|(2[0-4][0-9])|(25[0-5]))";
+    private final String IP_REGEX = "^(([1-9]?[0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([1-9]?[0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +98,12 @@ public class MainActivity extends AppCompatActivity {
         button_del = findViewById(R.id.button_del);
         button_back = findViewById(R.id.button_back);
         button_next = findViewById(R.id.button_next);
+
+        button_period.setEnabled(false);
+        button_add.setEnabled(false);
+        button_del.setEnabled(false);
+        button_back.setEnabled(false);
+        button_next.setEnabled(false);
     }
 
     @Override
@@ -99,104 +113,378 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.button_0:
-                commandList.add("0");
-                break;
-            case R.id.button_1:
-                commandList.add("1");
-                break;
-            case R.id.button_2:
-                commandList.add("2");
-                break;
-            case R.id.button_3:
-                commandList.add("3");
-                break;
-            case R.id.button_4:
-                commandList.add("4");
-                break;
-            case R.id.button_5:
-                commandList.add("5");
-                break;
-            case R.id.button_6:
-                commandList.add("6");
-                break;
-            case R.id.button_7:
-                commandList.add("7");
-                break;
-            case R.id.button_8:
-                commandList.add("8");
-                break;
-            case R.id.button_9:
-                commandList.add("9");
-                break;
-            case R.id.button_period:
-                //TODO
-                break;
-            case R.id.button_plus:
-                commandList.add(PLUS);
-                break;
-            case R.id.button_minus:
-                commandList.add(MINUS);
-                break;
-            case R.id.button_at:
-                commandList.add(AT);
-                break;
-            case R.id.button_thru:
-                commandList.add(THRU);
-                break;
-            case R.id.button_full:
-                commandList.add(FULL);
-                break;
-            case R.id.button_zero:
-                commandList.add(ZERO);
-                break;
-            case R.id.button_by:
-                commandList.add(BY);
-                break;
-            case R.id.button_please:
-                please();
-                commandList.clear();
-                break;
-            case R.id.button_esc:
-                commandList.clear();
-                break;
-            case R.id.button_reset:
-                commandList.clear();
-                reset();
-                break;
-            case R.id.button_setting:
-                //TODO
-                break;
-            case R.id.button_add:
-                //TODO
-                break;
-            case R.id.button_del:
-                //TODO
-                break;
-            case R.id.button_back:
-                //TODO
-                break;
-            case R.id.button_next:
-                //TODO
-                break;
+        if (!isSettingMode) {
+            //Normal mode
+            switch (view.getId()) {
+                case R.id.button_0:
+                    commandList.add("0");
+                    break;
+                case R.id.button_1:
+                    commandList.add("1");
+                    break;
+                case R.id.button_2:
+                    commandList.add("2");
+                    break;
+                case R.id.button_3:
+                    commandList.add("3");
+                    break;
+                case R.id.button_4:
+                    commandList.add("4");
+                    break;
+                case R.id.button_5:
+                    commandList.add("5");
+                    break;
+                case R.id.button_6:
+                    commandList.add("6");
+                    break;
+                case R.id.button_7:
+                    commandList.add("7");
+                    break;
+                case R.id.button_8:
+                    commandList.add("8");
+                    break;
+                case R.id.button_9:
+                    commandList.add("9");
+                    break;
+                case R.id.button_period:
+                    //nop
+                    break;
+                case R.id.button_plus:
+                    commandList.add(PLUS);
+                    break;
+                case R.id.button_minus:
+                    commandList.add(MINUS);
+                    break;
+                case R.id.button_at:
+                    commandList.add(AT);
+                    break;
+                case R.id.button_thru:
+                    commandList.add(THRU);
+                    break;
+                case R.id.button_full:
+                    commandList.add(FULL);
+                    break;
+                case R.id.button_zero:
+                    commandList.add(ZERO);
+                    break;
+                case R.id.button_by:
+                    commandList.add(BY);
+                    break;
+                case R.id.button_please:
+                    please();
+                    commandList.clear();
+                    break;
+                case R.id.button_esc:
+                    commandList.clear();
+                    break;
+                case R.id.button_reset:
+                    commandList.clear();
+                    reset();
+                    break;
+                case R.id.button_setting:
+                    switchSettingMode();
+                    break;
+                case R.id.button_add:
+                    //nop
+                    break;
+                case R.id.button_del:
+                    //nop
+                    break;
+                case R.id.button_back:
+                    //nop
+                    break;
+                case R.id.button_next:
+                    //nop
+                    break;
+            }
+        } else {
+            if (!isAddingMode) {
+                //Setting mode
+                switch (view.getId()) {
+                    case R.id.button_0:
+                        //nop
+                        break;
+                    case R.id.button_1:
+                        //nop
+                        break;
+                    case R.id.button_2:
+                        //nop
+                        break;
+                    case R.id.button_3:
+                        //nop
+                        break;
+                    case R.id.button_4:
+                        //nop
+                        break;
+                    case R.id.button_5:
+                        //nop
+                        break;
+                    case R.id.button_6:
+                        //nop
+                        break;
+                    case R.id.button_7:
+                        //nop
+                        break;
+                    case R.id.button_8:
+                        //nop
+                        break;
+                    case R.id.button_9:
+                        //nop
+                        break;
+                    case R.id.button_period:
+                        //nop
+                        break;
+                    case R.id.button_plus:
+                        //nop
+                        break;
+                    case R.id.button_minus:
+                        //nop
+                        break;
+                    case R.id.button_at:
+                        //nop
+                        break;
+                    case R.id.button_thru:
+                        //nop
+                        break;
+                    case R.id.button_full:
+                        //nop
+                        break;
+                    case R.id.button_zero:
+                        //nop
+                        break;
+                    case R.id.button_by:
+                        //nop
+                        break;
+                    case R.id.button_please:
+                        //nop
+                        break;
+                    case R.id.button_esc:
+                        //nop
+                        break;
+                    case R.id.button_reset:
+                        //nop
+                        break;
+                    case R.id.button_setting:
+                        switchSettingMode();
+                        break;
+                    case R.id.button_add:
+                        switchAddingMode();
+                        break;
+                    case R.id.button_del:
+                        if (ipIndex < IPList.size()) {
+                            IPList.remove(ipIndex);
+                            if (ipIndex > IPList.size() - 1) {
+                                ipIndex = IPList.size() - 1;
+                            }
+                        }
+                        break;
+                    case R.id.button_back:
+                        if (IPList.size() > 0) {
+                            ipIndex--;
+                            if (ipIndex < 0) {
+                                ipIndex = IPList.size() - 1;
+                            }
+                        }
+                        break;
+                    case R.id.button_next:
+                        if (IPList.size() > 0) {
+                            ipIndex++;
+                            if (ipIndex > IPList.size() - 1) {
+                                ipIndex = 0;
+                            }
+                        }
+                        break;
+                }
+            } else {
+                //Adding mode
+                switch (view.getId()) {
+                    case R.id.button_0:
+                        addingIP.append("0");
+                        break;
+                    case R.id.button_1:
+                        addingIP.append("1");
+                        break;
+                    case R.id.button_2:
+                        addingIP.append("2");
+                        break;
+                    case R.id.button_3:
+                        addingIP.append("3");
+                        break;
+                    case R.id.button_4:
+                        addingIP.append("4");
+                        break;
+                    case R.id.button_5:
+                        addingIP.append("5");
+                        break;
+                    case R.id.button_6:
+                        addingIP.append("6");
+                        break;
+                    case R.id.button_7:
+                        addingIP.append("7");
+                        break;
+                    case R.id.button_8:
+                        addingIP.append("8");
+                        break;
+                    case R.id.button_9:
+                        addingIP.append("9");
+                        break;
+                    case R.id.button_period:
+                        addingIP.append(".");
+                        break;
+                    case R.id.button_plus:
+                        //nop
+                        break;
+                    case R.id.button_minus:
+                        //nop
+                        break;
+                    case R.id.button_at:
+                        //nop
+                        break;
+                    case R.id.button_thru:
+                        //nop
+                        break;
+                    case R.id.button_full:
+                        //nop
+                        break;
+                    case R.id.button_zero:
+                        //nop
+                        break;
+                    case R.id.button_by:
+                        //nop
+                        break;
+                    case R.id.button_please:
+                        String ip = addingIP.toString();
+                        if (Pattern.compile(IP_REGEX).matcher(ip).matches()) {
+                            IPList.add(addingIP.toString());
+                            addingIP = new StringBuilder();
+                            switchAddingMode();
+                        }else{
+                            Toast.makeText(this, "Invalid IP address", Toast.LENGTH_SHORT).show();
+                        }
+                        break;
+                    case R.id.button_esc:
+                        addingIP = new StringBuilder();
+                        break;
+                    case R.id.button_reset:
+                        //nop
+                        break;
+                    case R.id.button_setting:
+                        switchSettingMode();
+                        break;
+                    case R.id.button_add:
+                        switchAddingMode();
+                        break;
+                    case R.id.button_del:
+                        //nop
+                        break;
+                    case R.id.button_back:
+                        //nop
+                        break;
+                    case R.id.button_next:
+                        //nop
+                        break;
+                }
+            }
         }
         updateTextView();
     }
 
+    private void switchSettingMode() {
+        boolean willBeNormalMode = isSettingMode;
+
+        isSettingMode = !isSettingMode;
+        isAddingMode = false;
+        ipIndex = 0;
+        button_0.setEnabled(willBeNormalMode);
+        button_1.setEnabled(willBeNormalMode);
+        button_2.setEnabled(willBeNormalMode);
+        button_3.setEnabled(willBeNormalMode);
+        button_4.setEnabled(willBeNormalMode);
+        button_5.setEnabled(willBeNormalMode);
+        button_6.setEnabled(willBeNormalMode);
+        button_7.setEnabled(willBeNormalMode);
+        button_8.setEnabled(willBeNormalMode);
+        button_9.setEnabled(willBeNormalMode);
+        button_period.setEnabled(false);
+        button_plus.setEnabled(willBeNormalMode);
+        button_minus.setEnabled(willBeNormalMode);
+        button_at.setEnabled(willBeNormalMode);
+        button_thru.setEnabled(willBeNormalMode);
+        button_full.setEnabled(willBeNormalMode);
+        button_zero.setEnabled(willBeNormalMode);
+        button_by.setEnabled(willBeNormalMode);
+        button_please.setEnabled(willBeNormalMode);
+        button_esc.setEnabled(willBeNormalMode);
+        button_reset.setEnabled(willBeNormalMode);
+        button_setting.setEnabled(true);
+        button_add.setEnabled(!willBeNormalMode);
+        button_del.setEnabled(!willBeNormalMode);
+        button_back.setEnabled(!willBeNormalMode);
+        button_next.setEnabled(!willBeNormalMode);
+    }
+
+    private void switchAddingMode() {
+        boolean willBeAddingMode = !isAddingMode;
+
+        isAddingMode = !isAddingMode;
+        ipIndex = 0;
+        addingIP = new StringBuilder();
+        button_0.setEnabled(willBeAddingMode);
+        button_1.setEnabled(willBeAddingMode);
+        button_2.setEnabled(willBeAddingMode);
+        button_3.setEnabled(willBeAddingMode);
+        button_4.setEnabled(willBeAddingMode);
+        button_5.setEnabled(willBeAddingMode);
+        button_6.setEnabled(willBeAddingMode);
+        button_7.setEnabled(willBeAddingMode);
+        button_8.setEnabled(willBeAddingMode);
+        button_9.setEnabled(willBeAddingMode);
+        button_period.setEnabled(willBeAddingMode);
+        button_plus.setEnabled(false);
+        button_minus.setEnabled(false);
+        button_at.setEnabled(false);
+        button_thru.setEnabled(false);
+        button_full.setEnabled(false);
+        button_zero.setEnabled(false);
+        button_by.setEnabled(false);
+        button_please.setEnabled(willBeAddingMode);
+        button_esc.setEnabled(willBeAddingMode);
+        button_reset.setEnabled(false);
+        button_setting.setEnabled(true);
+        button_add.setEnabled(true);
+        button_del.setEnabled(!willBeAddingMode);
+        button_back.setEnabled(!willBeAddingMode);
+        button_next.setEnabled(!willBeAddingMode);
+    }
+
     private void updateTextView() {
         StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < commandList.size(); i++) {
-            String s = commandList.get(i);
-            if (isSign(s)) {
-                if (i > 0) {
-                    if (!isSign(commandList.get(i - 1))) {
-                        stringBuilder.append(" ");
+        if (!isSettingMode) {
+            //Normal mode
+            for (int i = 0; i < commandList.size(); i++) {
+                String s = commandList.get(i);
+                if (isSign(s)) {
+                    if (i > 0) {
+                        if (!isSign(commandList.get(i - 1))) {
+                            stringBuilder.append(" ");
+                        }
                     }
+                    stringBuilder.append(s).append(" ");
+                } else {
+                    stringBuilder.append(s);
                 }
-                stringBuilder.append(s).append(" ");
+            }
+        } else {
+            if (!isAddingMode) {
+                //Setting mode
+                if (IPList.size() > 0) {
+                    stringBuilder.append(IPList.get(ipIndex));
+                } else {
+                    stringBuilder.append("No addresses");
+                }
             } else {
-                stringBuilder.append(s);
+                //Adding mode
+                stringBuilder.append("ADD: ").append(addingIP.toString());
             }
         }
         command_view.setText(stringBuilder.toString());
