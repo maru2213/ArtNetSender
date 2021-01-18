@@ -167,6 +167,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void please() {
+        if (commandList.size() < 1) {
+            return;
+        }
         try {
             interpretCommand();
             System.out.println(Arrays.toString(data));
