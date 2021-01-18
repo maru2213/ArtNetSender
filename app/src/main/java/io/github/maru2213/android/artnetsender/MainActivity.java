@@ -166,10 +166,6 @@ public class MainActivity extends AppCompatActivity {
         command_view.setText(stringBuilder.toString());
     }
 
-    private boolean isSign(String s) {
-        return s.equals(PLUS) || s.equals(MINUS) || s.equals(AT) || s.equals(THRU) || s.equals(FULL) || s.equals(ZERO) || s.equals(BY);
-    }
-
     private void please() {
         try {
             interpretCommand();
@@ -183,6 +179,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void reset() {
         //TODO
+    }
+
+    private boolean isSign(String s) {
+        return s.equals(PLUS) || s.equals(MINUS) || s.equals(AT) || s.equals(THRU) || s.equals(FULL) || s.equals(ZERO) || s.equals(BY);
     }
 
     private void interpretCommand() throws Exception {
@@ -246,7 +246,7 @@ public class MainActivity extends AppCompatActivity {
                             value = (byte) 0x00;
                             break;
                         default:
-                            if (!Pattern.compile(VALUE_REGEX).matcher(commandArray[2]).matches()){
+                            if (!Pattern.compile(VALUE_REGEX).matcher(commandArray[2]).matches()) {
                                 throw new IllegalStateException("Invalid value");
                             }
                             int intValue;
@@ -312,7 +312,7 @@ public class MainActivity extends AppCompatActivity {
                             startValue = 0;
                             break;
                         default:
-                            if (!Pattern.compile(VALUE_REGEX).matcher(commandArray[2]).matches()){
+                            if (!Pattern.compile(VALUE_REGEX).matcher(commandArray[2]).matches()) {
                                 throw new IllegalStateException("Invalid value");
                             }
                             try {
