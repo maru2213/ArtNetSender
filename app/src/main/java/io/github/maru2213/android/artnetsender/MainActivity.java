@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private Button button_zero;
     private Button button_by;
     private Button button_please;
-    private Button button_esc;
+    private Button button_delete;
     private Button button_reset;
     private Button button_setting;
     private Button button_add;
@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
         button_zero = findViewById(R.id.button_zero);
         button_by = findViewById(R.id.button_by);
         button_please = findViewById(R.id.button_please);
-        button_esc = findViewById(R.id.button_esc);
+        button_delete = findViewById(R.id.button_delete);
         button_reset = findViewById(R.id.button_reset);
         button_setting = findViewById(R.id.button_setting);
         button_add = findViewById(R.id.button_add);
@@ -191,8 +191,8 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.button_please:
                     please();
                     break;
-                case R.id.button_esc:
-                    commandList.clear();
+                case R.id.button_delete:
+                    commandList.remove(commandList.size() - 1);
                     break;
                 case R.id.button_reset:
                     reset();
@@ -274,7 +274,7 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.button_please:
                         //nop
                         break;
-                    case R.id.button_esc:
+                    case R.id.button_delete:
                         //nop
                         break;
                     case R.id.button_reset:
@@ -378,8 +378,8 @@ public class MainActivity extends AppCompatActivity {
                             Toast.makeText(this, "Invalid IP address", Toast.LENGTH_SHORT).show();
                         }
                         break;
-                    case R.id.button_esc:
-                        addingIP = new StringBuilder();
+                    case R.id.button_delete:
+                        addingIP.deleteCharAt(addingIP.length() - 1);
                         break;
                     case R.id.button_reset:
                         //nop
@@ -430,7 +430,7 @@ public class MainActivity extends AppCompatActivity {
         button_zero.setEnabled(willBeNormalMode);
         button_by.setEnabled(willBeNormalMode);
         button_please.setEnabled(willBeNormalMode);
-        button_esc.setEnabled(willBeNormalMode);
+        button_delete.setEnabled(willBeNormalMode);
         button_reset.setEnabled(willBeNormalMode);
         button_setting.setEnabled(true);
         button_add.setEnabled(!willBeNormalMode);
@@ -464,7 +464,7 @@ public class MainActivity extends AppCompatActivity {
         button_zero.setEnabled(false);
         button_by.setEnabled(false);
         button_please.setEnabled(willBeAddingMode);
-        button_esc.setEnabled(willBeAddingMode);
+        button_delete.setEnabled(willBeAddingMode);
         button_reset.setEnabled(false);
         button_setting.setEnabled(true);
         button_add.setEnabled(true);
