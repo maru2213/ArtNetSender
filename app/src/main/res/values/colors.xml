@@ -2,21 +2,32 @@
 <resources>
     <color name="colorPrimary">#303336</color>
     <color name="background">#303336</color>
-    <color name="button_text">#FFFFFF</color>
+    <color name="button_text_white">#FFFFFF</color>
+    <color name="button_text_white_disabled">#999999</color>
+    <color name="button_text_black">#000000</color>
+    <color name="button_text_black_disabled">#555555</color>
     <color name="button_number_default_light">#6D96BF</color>
     <color name="button_number_default_dark">#4070A0</color>
     <color name="button_number_clicked_light">#306090</color>
     <color name="button_number_clicked_dark">#103E6D</color>
+    <color name="button_number_disabled_light">#253570</color>
+    <color name="button_number_disabled_dark">#001E40</color>
     <color name="button_please_default_light">#67B465</color>
     <color name="button_please_default_dark">#409A40</color>
     <color name="button_please_clicked_light">#308A30</color>
     <color name="button_please_clicked_dark">#106615</color>
+    <color name="button_please_disabled_light">#14681C</color>
+    <color name="button_please_disabled_dark">#003500</color>
     <color name="button_reset_default_light">#E47777</color>
     <color name="button_reset_default_dark">#CE4745</color>
     <color name="button_reset_clicked_light">#C45755</color>
     <color name="button_reset_clicked_dark">#A43735</color>
-    <color name="button_settings_default_light">#F7F799</color>
-    <color name="button_settings_default_dark">#DDDD33</color>
-    <color name="button_settings_clicked_light">#D0D070</color>
-    <color name="button_settings_clicked_dark">#BABA5A</color>
+    <color name="button_reset_disabled_light">#8A1515</color>
+    <color name="button_reset_disabled_dark">#570D0D</color>
+    <color name="button_setting_default_light">#F7F799</color>
+    <color name="button_setting_default_dark">#DDDD33</color>
+    <color name="button_setting_clicked_light">#D0D070</color>
+    <color name="button_setting_clicked_dark">#BABA5A</color>
+    <color name="button_setting_disabled_light">#AAAA60</color>
+    <color name="button_setting_disabled_dark">#707020</color>
 </resources>
