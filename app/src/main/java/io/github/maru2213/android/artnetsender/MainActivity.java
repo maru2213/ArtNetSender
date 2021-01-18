@@ -36,6 +36,11 @@ public class MainActivity extends AppCompatActivity {
     private Button button_please;
     private Button button_esc;
     private Button button_reset;
+    private Button button_setting;
+    private Button button_add;
+    private Button button_del;
+    private Button button_back;
+    private Button button_next;
 
     private byte[] data = new byte[512];
 
@@ -78,6 +83,11 @@ public class MainActivity extends AppCompatActivity {
         button_please = findViewById(R.id.button_please);
         button_esc = findViewById(R.id.button_esc);
         button_reset = findViewById(R.id.button_reset);
+        button_setting = findViewById(R.id.button_setting);
+        button_add = findViewById(R.id.button_add);
+        button_del = findViewById(R.id.button_del);
+        button_back = findViewById(R.id.button_back);
+        button_next = findViewById(R.id.button_next);
     }
 
     @Override
@@ -149,6 +159,21 @@ public class MainActivity extends AppCompatActivity {
             case R.id.button_reset:
                 commandList.clear();
                 reset();
+                break;
+            case R.id.button_setting:
+                //TODO
+                break;
+            case R.id.button_add:
+                //TODO
+                break;
+            case R.id.button_del:
+                //TODO
+                break;
+            case R.id.button_back:
+                //TODO
+                break;
+            case R.id.button_next:
+                //TODO
                 break;
         }
         updateTextView();

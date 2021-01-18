@@ -15,4 +15,8 @@
     <color name="button_reset_default_dark">#CE4745</color>
     <color name="button_reset_clicked_light">#C45755</color>
     <color name="button_reset_clicked_dark">#A43735</color>
+    <color name="button_settings_default_light">#F7F799</color>
+    <color name="button_settings_default_dark">#DDDD33</color>
+    <color name="button_settings_clicked_light">#D0D070</color>
+    <color name="button_settings_clicked_dark">#BABA5A</color>
 </resources>
