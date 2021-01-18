@@ -4,9 +4,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -34,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
     private Button button_esc;
     private Button button_reset;
 
+    private byte[] data = new byte[512];
+
     private List<String> commandList = new ArrayList<>();
 
     private final String PLUS = "PLUS";
@@ -43,6 +48,9 @@ public class MainActivity extends AppCompatActivity {
     private final String FULL = "FULL";
     private final String ZERO = "ZERO";
     private final String BY = "BY";
+
+    private final String CHANNEL_REGEX = "(([1-9])|([1-9][0-9])|([1-4][0-9]{2})|(50[0-9])|(51[0-2]))";
+    private final String VALUE_REGEX = "(([0-9])|([1-9][0-9])|(1[0-9]{2})|(2[0-4][0-9])|(25[0-5]))";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -163,10 +171,189 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void please() {
-        //TODO
+        try {
+            interpretCommand();
+            System.out.println(Arrays.toString(data));
+            //TODO dataの送信
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Invalid command", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void reset() {
         //TODO
+    }
+
+    private void interpretCommand() throws Exception {
+        List<String> newCommendList = new ArrayList<>();
+        StringBuilder stringBuilder = new StringBuilder();
+        for (String s : commandList) {
+            if (isSign(s)) {
+                if (stringBuilder.length() > 0) {
+                    newCommendList.add(stringBuilder.toString());
+                    stringBuilder = new StringBuilder();
+                }
+                newCommendList.add(s);
+            } else {
+                stringBuilder.append(s);
+            }
+        }
+        if (stringBuilder.length() > 0) {
+            newCommendList.add(stringBuilder.toString());
+        }
+
+        if (newCommendList.size() < 1) {
+            throw new IllegalStateException("The commend is empty");
+        }
+
+        String[] commandArray = new String[newCommendList.size()];
+        newCommendList.toArray(commandArray);
+        System.out.println(Arrays.toString(commandArray));
+
+        if (isSign(commandArray[0])) {
+            throw new IllegalStateException("The first element cannot be a sign");
+        }
+
+        if (!Pattern.compile(CHANNEL_REGEX).matcher(commandArray[0]).matches()) {
+            throw new IllegalStateException("Invalid channel");
+        }
+
+        int startChannel;
+        try {
+            startChannel = Integer.parseInt(commandArray[0]);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            throw new IllegalStateException("Parse failed");
+        }
+
+        if (!commandArray[1].equals(THRU)) {
+            //One channel
+            byte value;
+            switch (commandArray[1]) {
+                case FULL:
+                    value = (byte) 0xFF;
+                    break;
+                case ZERO:
+                    value = (byte) 0x00;
+                    break;
+                case AT:
+                    switch (commandArray[2]) {
+                        case FULL:
+                            value = (byte) 0xFF;
+                            break;
+                        case ZERO:
+                            value = (byte) 0x00;
+                            break;
+                        default:
+                            if (!Pattern.compile(VALUE_REGEX).matcher(commandArray[2]).matches()){
+                                throw new IllegalStateException("Invalid value");
+                            }
+                            int intValue;
+                            try {
+                                intValue = Integer.parseInt(commandArray[2]);
+                            } catch (NumberFormatException e) {
+                                e.printStackTrace();
+                                throw new IllegalStateException("Parse failed");
+                            }
+                            value = (byte) intValue;
+                    }
+                    break;
+                default:
+                    throw new IllegalStateException("The second element must be FULL, ZERO, or AT");
+            }
+
+            data[startChannel - 1] = value;
+        } else {
+            //THRU
+            if (!Pattern.compile(CHANNEL_REGEX).matcher(commandArray[2]).matches()) {
+                throw new IllegalStateException("Invalid channel");
+            }
+
+            int endChannel;
+            try {
+                endChannel = Integer.parseInt(commandArray[2]);
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+                throw new IllegalStateException("Parse failed");
+            }
+
+            boolean isByUsed = false;
+            int by = 1;
+            if (commandArray[3].equals(BY)) {
+                isByUsed = true;
+                try {
+                    by = Integer.parseInt(commandArray[4]);
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                    throw new IllegalStateException("Parse failed");
+                }
+                if (by < 1 || by > 512) {
+                    throw new IllegalStateException("Invalid parameter");
+                }
+            }
+
+            int startValue;
+            int endValue = -1;
+            int i = isByUsed ? 5 : 3;
+            switch (commandArray[i]) {
+                case FULL:
+                    startValue = 255;
+                    break;
+                case ZERO:
+                    startValue = 0;
+                    break;
+                case AT:
+                    switch (commandArray[i + 1]) {
+                        case FULL:
+                            startValue = 255;
+                            break;
+                        case ZERO:
+                            startValue = 0;
+                            break;
+                        default:
+                            if (!Pattern.compile(VALUE_REGEX).matcher(commandArray[2]).matches()){
+                                throw new IllegalStateException("Invalid value");
+                            }
+                            try {
+                                startValue = Integer.parseInt(commandArray[i + 1]);
+                            } catch (NumberFormatException e) {
+                                e.printStackTrace();
+                                throw new IllegalStateException("Parse failed");
+                            }
+
+                            if (commandArray.length > i + 2) {
+                                if (!commandArray[i + 2].equals(THRU)) {
+                                    throw new IllegalStateException("There must be THRU after AT <value>");
+                                }
+
+                                try {
+                                    endValue = Integer.parseInt(commandArray[i + 3]);
+                                } catch (NumberFormatException e) {
+                                    e.printStackTrace();
+                                    throw new IllegalStateException("There should be a number after THRU");
+                                }
+                            }
+                    }
+                    break;
+                default:
+                    throw new IllegalStateException("There is no FULL, ZERO, or AT");
+            }
+
+            if (endValue < 0) {
+                endValue = startValue;
+            }
+
+            int channelRange = endChannel - startChannel + 1;
+            int channelCount = (int) Math.ceil((double) channelRange / by);
+            int dataRange = endValue - startValue;
+            for (int j = 0; j < channelCount; j++) {
+                int value = startValue + (int) Math.round((double) dataRange * j / (channelCount - 1));
+                if (j == channelCount - 1) {
+                    value = endValue;
+                }
+                data[startChannel + (by * j) - 1] = (byte) value;
+            }
+        }
     }
 }
