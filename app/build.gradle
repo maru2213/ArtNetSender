@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply from: '../signingConfig.gradle', to: android
 
 android {
     compileSdkVersion 29
@@ -15,8 +16,9 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
 }
