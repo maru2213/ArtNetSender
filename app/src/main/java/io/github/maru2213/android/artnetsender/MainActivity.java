@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private Button button_del;
     private Button button_back;
     private Button button_next;
+    private Button button_period;
 
     private byte[] data = new byte[512];
 
@@ -88,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
         button_del = findViewById(R.id.button_del);
         button_back = findViewById(R.id.button_back);
         button_next = findViewById(R.id.button_next);
+        button_period = findViewById(R.id.button_period);
     }
 
     @Override
@@ -127,6 +129,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.button_9:
                 commandList.add("9");
+                break;
+            case R.id.button_period:
+                //TODO
                 break;
             case R.id.button_plus:
                 commandList.add(PLUS);
