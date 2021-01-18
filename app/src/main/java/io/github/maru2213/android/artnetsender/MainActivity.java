@@ -80,6 +80,12 @@ public class MainActivity extends AppCompatActivity {
         button_reset = findViewById(R.id.button_reset);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateTextView();
+    }
+
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.button_0:
