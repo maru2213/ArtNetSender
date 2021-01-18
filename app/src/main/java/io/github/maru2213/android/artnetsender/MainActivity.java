@@ -141,8 +141,8 @@ public class MainActivity extends AppCompatActivity {
                 commandList.clear();
                 break;
             case R.id.button_reset:
-                reset();
                 commandList.clear();
+                reset();
                 break;
         }
         updateTextView();
@@ -181,7 +181,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void reset() {
-        commandList.clear();
         commandList.add("1");
         commandList.add(THRU);
         commandList.add("5");
