@@ -213,7 +213,9 @@ public class MainActivity extends AppCompatActivity {
                         please();
                         break;
                     case R.id.button_delete:
-                        commandList.remove(commandList.size() - 1);
+                        if (commandList.size() > 0) {
+                            commandList.remove(commandList.size() - 1);
+                        }
                         break;
                     case R.id.button_reset:
                         reset();
@@ -401,7 +403,9 @@ public class MainActivity extends AppCompatActivity {
                         }
                         break;
                     case R.id.button_delete:
-                        addingIP.deleteCharAt(addingIP.length() - 1);
+                        if (addingIP.length() > 0) {
+                            addingIP.deleteCharAt(addingIP.length() - 1);
+                        }
                         break;
                     case R.id.button_reset:
                         //nop
