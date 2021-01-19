@@ -58,14 +58,14 @@ public class MainActivity extends AppCompatActivity {
     private Button button_back;
     private Button button_next;
 
+    private String currentMode;
+
     private byte[] data = new byte[512];
 
     private List<String> commandList = new ArrayList<>();
 
     private List<String> IPList = new ArrayList<>();
 
-    private boolean isSettingMode = false;
-    private boolean isAddingMode = false;
     private int ipIndex = 0;
     private StringBuilder addingIP = new StringBuilder();
 
@@ -78,6 +78,10 @@ public class MainActivity extends AppCompatActivity {
     private final String FULL = "FULL";
     private final String ZERO = "ZERO";
     private final String BY = "BY";
+
+    private final String NORMAL_MODE = "normal";
+    private final String SETTING_MODE = "setting";
+    private final String ADDING_MODE = "adding";
 
     private final String CHANNEL_REGEX = "(([1-9])|([1-9][0-9])|([1-4][0-9]{2})|(50[0-9])|(51[0-2]))";
     private final String VALUE_REGEX = "(([0-9])|([1-9][0-9])|(1[0-9]{2})|(2[0-4][0-9])|(25[0-5]))";
@@ -95,6 +99,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        currentMode = NORMAL_MODE;
 
         command_view = findViewById(R.id.command_view);
         button_0 = findViewById(R.id.button_0);
@@ -146,91 +152,91 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClick(View view) {
-        if (!isSettingMode) {
-            //Normal mode
-            switch (view.getId()) {
-                case R.id.button_0:
-                    commandList.add("0");
-                    break;
-                case R.id.button_1:
-                    commandList.add("1");
-                    break;
-                case R.id.button_2:
-                    commandList.add("2");
-                    break;
-                case R.id.button_3:
-                    commandList.add("3");
-                    break;
-                case R.id.button_4:
-                    commandList.add("4");
-                    break;
-                case R.id.button_5:
-                    commandList.add("5");
-                    break;
-                case R.id.button_6:
-                    commandList.add("6");
-                    break;
-                case R.id.button_7:
-                    commandList.add("7");
-                    break;
-                case R.id.button_8:
-                    commandList.add("8");
-                    break;
-                case R.id.button_9:
-                    commandList.add("9");
-                    break;
-                case R.id.button_period:
-                    //nop
-                    break;
-                case R.id.button_plus:
-                    commandList.add(PLUS);
-                    break;
-                case R.id.button_minus:
-                    commandList.add(MINUS);
-                    break;
-                case R.id.button_at:
-                    commandList.add(AT);
-                    break;
-                case R.id.button_thru:
-                    commandList.add(THRU);
-                    break;
-                case R.id.button_full:
-                    commandList.add(FULL);
-                    break;
-                case R.id.button_zero:
-                    commandList.add(ZERO);
-                    break;
-                case R.id.button_by:
-                    commandList.add(BY);
-                    break;
-                case R.id.button_please:
-                    please();
-                    break;
-                case R.id.button_delete:
-                    commandList.remove(commandList.size() - 1);
-                    break;
-                case R.id.button_reset:
-                    reset();
-                    break;
-                case R.id.button_setting:
-                    switchSettingMode();
-                    break;
-                case R.id.button_add:
-                    //nop
-                    break;
-                case R.id.button_del:
-                    //nop
-                    break;
-                case R.id.button_back:
-                    //nop
-                    break;
-                case R.id.button_next:
-                    //nop
-                    break;
-            }
-        } else {
-            if (!isAddingMode) {
-                //Setting mode
+        switch (currentMode) {
+            case NORMAL_MODE:
+                switch (view.getId()) {
+                    case R.id.button_0:
+                        commandList.add("0");
+                        break;
+                    case R.id.button_1:
+                        commandList.add("1");
+                        break;
+                    case R.id.button_2:
+                        commandList.add("2");
+                        break;
+                    case R.id.button_3:
+                        commandList.add("3");
+                        break;
+                    case R.id.button_4:
+                        commandList.add("4");
+                        break;
+                    case R.id.button_5:
+                        commandList.add("5");
+                        break;
+                    case R.id.button_6:
+                        commandList.add("6");
+                        break;
+                    case R.id.button_7:
+                        commandList.add("7");
+                        break;
+                    case R.id.button_8:
+                        commandList.add("8");
+                        break;
+                    case R.id.button_9:
+                        commandList.add("9");
+                        break;
+                    case R.id.button_period:
+                        //nop
+                        break;
+                    case R.id.button_plus:
+                        commandList.add(PLUS);
+                        break;
+                    case R.id.button_minus:
+                        commandList.add(MINUS);
+                        break;
+                    case R.id.button_at:
+                        commandList.add(AT);
+                        break;
+                    case R.id.button_thru:
+                        commandList.add(THRU);
+                        break;
+                    case R.id.button_full:
+                        commandList.add(FULL);
+                        break;
+                    case R.id.button_zero:
+                        commandList.add(ZERO);
+                        break;
+                    case R.id.button_by:
+                        commandList.add(BY);
+                        break;
+                    case R.id.button_please:
+                        please();
+                        break;
+                    case R.id.button_delete:
+                        commandList.remove(commandList.size() - 1);
+                        break;
+                    case R.id.button_reset:
+                        reset();
+                        break;
+                    case R.id.button_setting:
+                        switchSettingMode();
+                        break;
+                    case R.id.button_add:
+                        //nop
+                        break;
+                    case R.id.button_del:
+                        //nop
+                        break;
+                    case R.id.button_back:
+                        //nop
+                        break;
+                    case R.id.button_next:
+                        //nop
+                        break;
+                }
+                break;
+
+            case SETTING_MODE:
                 switch (view.getId()) {
                     case R.id.button_0:
                         //nop
@@ -326,8 +332,9 @@ public class MainActivity extends AppCompatActivity {
                         }
                         break;
                 }
-            } else {
-                //Adding mode
+                break;
+
+            case ADDING_MODE:
                 switch (view.getId()) {
                     case R.id.button_0:
                         addingIP.append("0");
@@ -415,16 +422,18 @@ public class MainActivity extends AppCompatActivity {
                         //nop
                         break;
                 }
-            }
+                break;
+
+            default:
+                break;
         }
         updateTextView();
     }
 
     private void switchSettingMode() {
-        boolean willBeNormalMode = isSettingMode;
+        boolean willBeNormalMode = !currentMode.equals(NORMAL_MODE);
 
-        isSettingMode = !isSettingMode;
-        isAddingMode = false;
+        currentMode = willBeNormalMode ? NORMAL_MODE : SETTING_MODE;
         ipIndex = 0;
         button_0.setEnabled(willBeNormalMode);
         button_1.setEnabled(willBeNormalMode);
@@ -455,9 +464,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void switchAddingMode() {
-        boolean willBeAddingMode = !isAddingMode;
+        boolean willBeAddingMode = !currentMode.equals(ADDING_MODE);
 
-        isAddingMode = !isAddingMode;
+        currentMode = willBeAddingMode ? ADDING_MODE : SETTING_MODE;
         ipIndex = 0;
         addingIP = new StringBuilder();
         button_0.setEnabled(willBeAddingMode);
@@ -490,33 +499,37 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateTextView() {
         StringBuilder stringBuilder = new StringBuilder();
-        if (!isSettingMode) {
-            //Normal mode
-            for (int i = 0; i < commandList.size(); i++) {
-                String s = commandList.get(i);
-                if (isSign(s)) {
-                    if (i > 0) {
-                        if (!isSign(commandList.get(i - 1))) {
-                            stringBuilder.append(" ");
+        switch (currentMode) {
+            case NORMAL_MODE:
+                for (int i = 0; i < commandList.size(); i++) {
+                    String s = commandList.get(i);
+                    if (isSign(s)) {
+                        if (i > 0) {
+                            if (!isSign(commandList.get(i - 1))) {
+                                stringBuilder.append(" ");
+                            }
                         }
+                        stringBuilder.append(s).append(" ");
+                    } else {
+                        stringBuilder.append(s);
                     }
-                    stringBuilder.append(s).append(" ");
-                } else {
-                    stringBuilder.append(s);
                 }
-            }
-        } else {
-            if (!isAddingMode) {
-                //Setting mode
+                break;
+
+            case SETTING_MODE:
                 if (IPList.size() > 0) {
                     stringBuilder.append(IPList.get(ipIndex));
                 } else {
                     stringBuilder.append("No addresses");
                 }
-            } else {
-                //Adding mode
+                break;
+
+            case ADDING_MODE:
                 stringBuilder.append("ADD: ").append(addingIP.toString());
-            }
+                break;
+
+            default:
+                break;
         }
         command_view.setText(stringBuilder.toString());
     }
