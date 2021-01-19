@@ -57,7 +57,8 @@
                 android:onClick="onClick"
                 android:text="7"
                 android:textColor="@color/button_color_white"
-                android:textSize="@dimen/button_text_size" />
+                android:textSize="@dimen/button_text_size"
+                style="?android:attr/borderlessButtonStyle"/>
 
             <Space
                 android:layout_width="0dp"
@@ -73,7 +74,8 @@
                 android:onClick="onClick"
                 android:text="8"
                 android:textColor="@color/button_color_white"
-                android:textSize="@dimen/button_text_size" />
+                android:textSize="@dimen/button_text_size"
+                style="?android:attr/borderlessButtonStyle"/>
 
             <Space
                 android:layout_width="0dp"
@@ -89,7 +91,8 @@
                 android:onClick="onClick"
                 android:text="9"
                 android:textColor="@color/button_color_white"
-                android:textSize="@dimen/button_text_size" />
+                android:textSize="@dimen/button_text_size"
+                style="?android:attr/borderlessButtonStyle"/>
 
             <Space
                 android:layout_width="0dp"
@@ -105,7 +108,8 @@
                 android:onClick="onClick"
                 android:text="AT"
                 android:textColor="@color/button_color_white"
-                android:textSize="@dimen/button_text_size" />
+                android:textSize="@dimen/button_text_size"
+                style="?android:attr/borderlessButtonStyle"/>
 
         </LinearLayout>
 
@@ -129,7 +133,8 @@
                 android:onClick="onClick"
                 android:text="4"
                 android:textColor="@color/button_color_white"
-                android:textSize="@dimen/button_text_size" />
+                android:textSize="@dimen/button_text_size"
+                style="?android:attr/borderlessButtonStyle"/>
 
             <Space
                 android:layout_width="0dp"
@@ -145,7 +150,8 @@
                 android:onClick="onClick"
                 android:text="5"
                 android:textColor="@color/button_color_white"
-                android:textSize="@dimen/button_text_size" />
+                android:textSize="@dimen/button_text_size"
+                style="?android:attr/borderlessButtonStyle"/>
 
             <Space
                 android:layout_width="0dp"
@@ -161,7 +167,8 @@
                 android:onClick="onClick"
                 android:text="6"
                 android:textColor="@color/button_color_white"
-                android:textSize="@dimen/button_text_size" />
+                android:textSize="@dimen/button_text_size"
+                style="?android:attr/borderlessButtonStyle"/>
 
             <Space
                 android:layout_width="0dp"
@@ -177,7 +184,8 @@
                 android:onClick="onClick"
                 android:text="THRU"
                 android:textColor="@color/button_color_white"
-                android:textSize="@dimen/button_text_size" />
+                android:textSize="@dimen/button_text_size"
+                style="?android:attr/borderlessButtonStyle"/>
 
         </LinearLayout>
 
@@ -201,7 +209,8 @@
                 android:onClick="onClick"
                 android:text="1"
                 android:textColor="@color/button_color_white"
-                android:textSize="@dimen/button_text_size" />
+                android:textSize="@dimen/button_text_size"
+                style="?android:attr/borderlessButtonStyle"/>
 
             <Space
                 android:layout_width="0dp"
@@ -217,7 +226,8 @@
                 android:onClick="onClick"
                 android:text="2"
                 android:textColor="@color/button_color_white"
-                android:textSize="@dimen/button_text_size" />
+                android:textSize="@dimen/button_text_size"
+                style="?android:attr/borderlessButtonStyle"/>
 
             <Space
                 android:layout_width="0dp"
@@ -233,7 +243,8 @@
                 android:onClick="onClick"
                 android:text="3"
                 android:textColor="@color/button_color_white"
-                android:textSize="@dimen/button_text_size" />
+                android:textSize="@dimen/button_text_size"
+                style="?android:attr/borderlessButtonStyle"/>
 
             <Space
                 android:layout_width="0dp"
@@ -249,7 +260,8 @@
                 android:onClick="onClick"
                 android:text="FULL"
                 android:textColor="@color/button_color_white"
-                android:textSize="@dimen/button_text_size" />
+                android:textSize="@dimen/button_text_size"
+                style="?android:attr/borderlessButtonStyle"/>
 
         </LinearLayout>
 
@@ -273,7 +285,8 @@
                 android:onClick="onClick"
                 android:text="-%"
                 android:textColor="@color/button_color_white"
-                android:textSize="@dimen/button_text_size" />
+                android:textSize="@dimen/button_text_size"
+                style="?android:attr/borderlessButtonStyle"/>
 
             <Space
                 android:layout_width="0dp"
@@ -289,7 +302,8 @@
                 android:onClick="onClick"
                 android:text="0"
                 android:textColor="@color/button_color_white"
-                android:textSize="@dimen/button_text_size" />
+                android:textSize="@dimen/button_text_size"
+                style="?android:attr/borderlessButtonStyle"/>
 
             <Space
                 android:layout_width="0dp"
@@ -305,7 +319,8 @@
                 android:onClick="onClick"
                 android:text="+%"
                 android:textColor="@color/button_color_white"
-                android:textSize="@dimen/button_text_size" />
+                android:textSize="@dimen/button_text_size"
+                style="?android:attr/borderlessButtonStyle"/>
 
             <Space
                 android:layout_width="0dp"
@@ -321,7 +336,8 @@
                 android:onClick="onClick"
                 android:text="ZERO"
                 android:textColor="@color/button_color_white"
-                android:textSize="@dimen/button_text_size" />
+                android:textSize="@dimen/button_text_size"
+                style="?android:attr/borderlessButtonStyle"/>
 
         </LinearLayout>
 
@@ -345,7 +361,8 @@
                 android:onClick="onClick"
                 android:text="PLEASE"
                 android:textColor="@color/button_color_white"
-                android:textSize="@dimen/button_text_size" />
+                android:textSize="@dimen/button_text_size"
+                style="?android:attr/borderlessButtonStyle"/>
 
             <Space
                 android:layout_width="0dp"
@@ -361,7 +378,8 @@
                 android:onClick="onClick"
                 android:text="."
                 android:textColor="@color/button_color_white"
-                android:textSize="@dimen/button_text_size" />
+                android:textSize="@dimen/button_text_size"
+                style="?android:attr/borderlessButtonStyle"/>
 
             <Space
                 android:layout_width="0dp"
@@ -377,7 +395,8 @@
                 android:onClick="onClick"
                 android:text="BY"
                 android:textColor="@color/button_color_white"
-                android:textSize="@dimen/button_text_size" />
+                android:textSize="@dimen/button_text_size"
+                style="?android:attr/borderlessButtonStyle"/>
         </LinearLayout>
 
         <Space
@@ -400,7 +419,8 @@
                 android:onClick="onClick"
                 android:text="DELETE"
                 android:textColor="@color/button_color_white"
-                android:textSize="@dimen/button_text_size" />
+                android:textSize="@dimen/button_text_size"
+                style="?android:attr/borderlessButtonStyle"/>
 
             <Space
                 android:layout_width="0dp"
@@ -416,7 +436,8 @@
                 android:onClick="onClick"
                 android:text="RESET ALL"
                 android:textColor="@color/button_color_white"
-                android:textSize="@dimen/button_text_size" />
+                android:textSize="@dimen/button_text_size"
+                style="?android:attr/borderlessButtonStyle"/>
 
         </LinearLayout>
 
@@ -440,7 +461,8 @@
                 android:onClick="onClick"
                 android:text="SET."
                 android:textColor="@color/button_color_black"
-                android:textSize="@dimen/settings_button_text_size" />
+                android:textSize="@dimen/settings_button_text_size"
+                style="?android:attr/borderlessButtonStyle"/>
 
             <Space
                 android:layout_width="0dp"
@@ -456,7 +478,8 @@
                 android:onClick="onClick"
                 android:text="ADD"
                 android:textColor="@color/button_color_black"
-                android:textSize="@dimen/settings_button_text_size" />
+                android:textSize="@dimen/settings_button_text_size"
+                style="?android:attr/borderlessButtonStyle"/>
 
             <Space
                 android:layout_width="0dp"
@@ -472,7 +495,8 @@
                 android:onClick="onClick"
                 android:text="DEL"
                 android:textColor="@color/button_color_black"
-                android:textSize="@dimen/settings_button_text_size" />
+                android:textSize="@dimen/settings_button_text_size"
+                style="?android:attr/borderlessButtonStyle"/>
 
             <Space
                 android:layout_width="0dp"
@@ -488,7 +512,8 @@
                 android:onClick="onClick"
                 android:text="BACK"
                 android:textColor="@color/button_color_black"
-                android:textSize="@dimen/settings_button_text_size" />
+                android:textSize="@dimen/settings_button_text_size"
+                style="?android:attr/borderlessButtonStyle"/>
 
             <Space
                 android:layout_width="0dp"
@@ -504,7 +529,8 @@
                 android:onClick="onClick"
                 android:text="NEXT"
                 android:textColor="@color/button_color_black"
-                android:textSize="@dimen/settings_button_text_size" />
+                android:textSize="@dimen/settings_button_text_size"
+                style="?android:attr/borderlessButtonStyle"/>
         </LinearLayout>
 
         <Space
