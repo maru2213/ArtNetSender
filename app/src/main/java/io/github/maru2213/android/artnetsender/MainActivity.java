@@ -15,6 +15,7 @@
  */
 package io.github.maru2213.android.artnetsender;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -26,6 +27,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -135,6 +137,23 @@ public class MainActivity extends AppCompatActivity {
         button_del.setEnabled(false);
         button_back.setEnabled(false);
         button_next.setEnabled(false);
+
+        new AlertDialog.Builder(this)
+                .setTitle("Choose the theme")
+                .setMessage("Which theme do you want to use?")
+                .setPositiveButton("Dark", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        setContentView(R.layout.activity_main_dark);
+                    }
+                })
+                .setNegativeButton("Light", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        setContentView(R.layout.activity_main_light);
+                    }
+                })
+                .show();
     }
 
     @Override
