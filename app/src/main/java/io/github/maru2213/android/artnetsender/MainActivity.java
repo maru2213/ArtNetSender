@@ -102,8 +102,30 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_dark);
 
-        currentMode = NORMAL_MODE;
+        new AlertDialog.Builder(this)
+                .setTitle("Choose the theme")
+                .setMessage("Which theme do you want to use?")
+                .setPositiveButton("Dark", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        setContentView(R.layout.activity_main_dark);
+                        initialize();
+                    }
+                })
+                .setNegativeButton("Light", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        setContentView(R.layout.activity_main_light);
+                        initialize();
+                    }
+                })
+                .show();
 
+        currentMode = NORMAL_MODE;
+        initialize();
+    }
+
+    private void initialize() {
         command_view = findViewById(R.id.command_view);
         button_0 = findViewById(R.id.button_0);
         button_1 = findViewById(R.id.button_1);
@@ -137,23 +159,6 @@ public class MainActivity extends AppCompatActivity {
         button_del.setEnabled(false);
         button_back.setEnabled(false);
         button_next.setEnabled(false);
-
-        new AlertDialog.Builder(this)
-                .setTitle("Choose the theme")
-                .setMessage("Which theme do you want to use?")
-                .setPositiveButton("Dark", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        setContentView(R.layout.activity_main_dark);
-                    }
-                })
-                .setNegativeButton("Light", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        setContentView(R.layout.activity_main_light);
-                    }
-                })
-                .show();
     }
 
     @Override
