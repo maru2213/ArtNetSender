@@ -15,7 +15,9 @@
  */
 package io.github.maru2213.android.artnetsender;
 
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -105,42 +107,65 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_dark);
-        currentTheme = DARK_THEME;
 
-        final AlertDialog alert = new AlertDialog.Builder(this)
-                .setTitle("Tips")
-                .setMessage("To change the theme, enter the command\n\"PLUS PLUS PLUS\"")
-                .setPositiveButton("OK", null)
-                .create();
+        SharedPreferences data = getSharedPreferences("DataSave", Context.MODE_PRIVATE);
+        currentTheme = data.getString("Theme", "");
 
-        new AlertDialog.Builder(this)
-                .setTitle("Choose the theme")
-                .setMessage("Which theme do you want to use?")
-                .setPositiveButton("Dark", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        setContentView(R.layout.activity_main_dark);
-                        currentTheme = DARK_THEME;
-                        initialize();
-                        alert.show();
-                    }
-                })
-                .setNegativeButton("Light", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        setContentView(R.layout.activity_main_light);
-                        currentTheme = LIGHT_THEME;
-                        initialize();
-                        alert.show();
-                    }
-                })
-                .show();
+        if (currentTheme.equals("")) {
+            final AlertDialog alert = new AlertDialog.Builder(this)
+                    .setTitle("Tips")
+                    .setMessage("To change the theme, enter the command\n\"PLUS PLUS PLUS\"")
+                    .setPositiveButton("OK", null)
+                    .create();
+
+            new AlertDialog.Builder(this)
+                    .setTitle("Choose the theme")
+                    .setMessage("Which theme do you want to use?")
+                    .setPositiveButton("Dark", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            currentTheme = DARK_THEME;
+                            SharedPreferences data = getSharedPreferences("DataSave", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = data.edit();
+                            editor.putString("Theme", DARK_THEME);
+                            editor.apply();
+                            initialize();
+                            alert.show();
+                        }
+                    })
+                    .setNegativeButton("Light", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            currentTheme = LIGHT_THEME;
+                            SharedPreferences data = getSharedPreferences("DataSave", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = data.edit();
+                            editor.putString("Theme", LIGHT_THEME);
+                            editor.apply();
+                            initialize();
+                            alert.show();
+                        }
+                    })
+                    .show();
+        }
 
         currentMode = NORMAL_MODE;
         initialize();
     }
 
     private void initialize() {
+        switch (currentTheme) {
+            case DARK_THEME:
+                setContentView(R.layout.activity_main_dark);
+                break;
+            case LIGHT_THEME:
+                setContentView(R.layout.activity_main_light);
+                break;
+            case "":
+                //nop
+                break;
+            default:
+                throw new RuntimeException("Illegal theme");
+        }
         command_view = findViewById(R.id.command_view);
         button_0 = findViewById(R.id.button_0);
         button_1 = findViewById(R.id.button_1);
@@ -544,12 +569,14 @@ public class MainActivity extends AppCompatActivity {
         boolean willBeDark = !currentTheme.equals(DARK_THEME);
 
         if (willBeDark) {
-            setContentView(R.layout.activity_main_dark);
             currentTheme = DARK_THEME;
         } else {
-            setContentView(R.layout.activity_main_light);
             currentTheme = LIGHT_THEME;
         }
+        SharedPreferences data = getSharedPreferences("DataSave", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = data.edit();
+        editor.putString("Theme", currentTheme);
+        editor.apply();
         initialize();
     }
 
