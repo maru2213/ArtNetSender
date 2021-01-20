@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
     private Button button_back;
     private Button button_next;
 
+    private String currentTheme;
     private String currentMode;
 
     private byte[] data = new byte[512];
@@ -85,6 +86,9 @@ public class MainActivity extends AppCompatActivity {
     private final String SETTING_MODE = "setting";
     private final String ADDING_MODE = "adding";
 
+    private final String LIGHT_THEME = "light";
+    private final String DARK_THEME = "dark";
+
     private final String CHANNEL_REGEX = "(([1-9])|([1-9][0-9])|([1-4][0-9]{2})|(50[0-9])|(51[0-2]))";
     private final String VALUE_REGEX = "(([0-9])|([1-9][0-9])|(1[0-9]{2})|(2[0-4][0-9])|(25[0-5]))";
     private final String IP_REGEX = "^(([1-9]?[0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([1-9]?[0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$";
@@ -101,6 +105,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_dark);
+        currentTheme = DARK_THEME;
+
+        final AlertDialog alert = new AlertDialog.Builder(this)
+                .setTitle("Tips")
+                .setMessage("To change the theme, enter the command\n\"PLUS PLUS PLUS\"")
+                .setPositiveButton("OK", null)
+                .create();
 
         new AlertDialog.Builder(this)
                 .setTitle("Choose the theme")
@@ -109,14 +120,18 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         setContentView(R.layout.activity_main_dark);
+                        currentTheme = DARK_THEME;
                         initialize();
+                        alert.show();
                     }
                 })
                 .setNegativeButton("Light", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         setContentView(R.layout.activity_main_light);
+                        currentTheme = LIGHT_THEME;
                         initialize();
+                        alert.show();
                     }
                 })
                 .show();
@@ -525,6 +540,19 @@ public class MainActivity extends AppCompatActivity {
         button_next.setEnabled(!willBeAddingMode);
     }
 
+    private void switchTheme() {
+        boolean willBeDark = !currentTheme.equals(DARK_THEME);
+
+        if (willBeDark) {
+            setContentView(R.layout.activity_main_dark);
+            currentTheme = DARK_THEME;
+        } else {
+            setContentView(R.layout.activity_main_light);
+            currentTheme = LIGHT_THEME;
+        }
+        initialize();
+    }
+
     private void updateTextView() {
         StringBuilder stringBuilder = new StringBuilder();
         switch (currentMode) {
@@ -592,6 +620,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void interpretCommand() throws Exception {
+        if (commandList.size() == 3) {
+            boolean isThemeCommand = true;
+            String[] arenaCommand = new String[]{PLUS, PLUS, PLUS};
+            for (int i = 0; i < 3; i++) {
+                if (!commandList.get(i).equals(arenaCommand[i])) {
+                    isThemeCommand = false;
+                    break;
+                }
+            }
+            if (isThemeCommand) {
+                switchTheme();
+                return;
+            }
+        }
+
         List<String> newCommendList = new ArrayList<>();
         StringBuilder stringBuilder = new StringBuilder();
         for (String s : commandList) {
