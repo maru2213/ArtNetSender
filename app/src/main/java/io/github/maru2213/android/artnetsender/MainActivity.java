@@ -15,9 +15,7 @@
  */
 package io.github.maru2213.android.artnetsender;
 
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -108,8 +106,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_dark);
 
-        SharedPreferences data = getSharedPreferences("DataSave", Context.MODE_PRIVATE);
-        currentTheme = data.getString("Theme", "");
+        currentTheme = PreferencesUtil.getString(this, PreferencesUtil.Keys.Theme, "");
 
         if (currentTheme.equals("")) {
             final AlertDialog alert = new AlertDialog.Builder(this)
@@ -125,10 +122,7 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             currentTheme = DARK_THEME;
-                            SharedPreferences data = getSharedPreferences("DataSave", Context.MODE_PRIVATE);
-                            SharedPreferences.Editor editor = data.edit();
-                            editor.putString("Theme", DARK_THEME);
-                            editor.apply();
+                            PreferencesUtil.putString(MainActivity.this, PreferencesUtil.Keys.Theme, DARK_THEME);
                             initialize();
                             alert.show();
                         }
@@ -137,10 +131,7 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             currentTheme = LIGHT_THEME;
-                            SharedPreferences data = getSharedPreferences("DataSave", Context.MODE_PRIVATE);
-                            SharedPreferences.Editor editor = data.edit();
-                            editor.putString("Theme", LIGHT_THEME);
-                            editor.apply();
+                            PreferencesUtil.putString(MainActivity.this, PreferencesUtil.Keys.Theme, LIGHT_THEME);
                             initialize();
                             alert.show();
                         }
@@ -573,10 +564,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             currentTheme = LIGHT_THEME;
         }
-        SharedPreferences data = getSharedPreferences("DataSave", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = data.edit();
-        editor.putString("Theme", currentTheme);
-        editor.apply();
+        PreferencesUtil.putString(MainActivity.this, PreferencesUtil.Keys.Theme, currentTheme);
         initialize();
     }
 
