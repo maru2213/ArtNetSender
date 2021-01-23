@@ -125,7 +125,7 @@ Made by [tabatkins/railroad-diagrams](https://github.com/tabatkins/railroad-diag
   <img src="https://github.com/maru2213/ArtNetSender/blob/main/command_diagram.svg" />
 
 ## License
-This software is released under the Apache-2.0 License, see "LICENSE".
+This software is released under the GPLv3 License, see "LICENSE".
 
 <!--
 Diagram(
