@@ -120,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
             new AlertDialog.Builder(this)
                     .setTitle("Choose the theme")
                     .setMessage("Which theme do you want to use?")
+                    .setCancelable(false)
                     .setPositiveButton("Dark", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
