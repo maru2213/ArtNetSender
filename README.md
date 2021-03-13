@@ -22,7 +22,7 @@ An Android app sending artnet signals to local network
 ### Setting IP Address
 - First, press the "SET." button on the bottom-left.
 
-  <img width="200" src="https://user-images.githubusercontent.com/25478531/105434092-4197fd00-5c9e-11eb-821a-22ed95e012ae.png" /> <img width="200" src="https://user-images.githubusercontent.com/25478531/105434094-42c92a00-5c9e-11eb-9aa7-324b811a567c.png" />
+  <img width="200" src="https://user-images.githubusercontent.com/25478531/105434092-4197fd00-5c9e-11eb-821a-22ed95e012ae.png" />
 
 - This is setting mode.  To back to normal mode, press the "SET." button again.
 - Now, press the "ADD" button next to the "SET." button.
